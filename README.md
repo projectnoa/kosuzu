@@ -1,8 +1,8 @@
 # kosuzu
 
-Given a URL to a Touhou doujin album, this tool will generate a Touhou wiki article for it.
+Given a URL to a Touhou doujin album, this tool will generate a [Touhou wiki] [1] article for it.
 
-This project is named after [Kosuzu Motoori] [1], who can decipher books by only touching them. Similarly, this project aims to decipher URLs to Touhou doujin albums.
+This project is named after [Kosuzu Motoori] [2], who can decipher books by only touching them. Similarly, this project aims to decipher URLs to Touhou doujin albums.
 
 ## Usage
 
@@ -34,4 +34,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-[1]: http://en.touhouwiki.net/wiki/Kosuzu_Motoori "Kosuzu Motoori - Touhou Wiki"
+[1]: http://en.touhouwiki.net/wiki/ "Touhou Wiki"
+[2]: http://en.touhouwiki.net/wiki/Kosuzu_Motoori "Kosuzu Motoori - Touhou Wiki"
