@@ -3,7 +3,8 @@
   :url "https://github.com/bvtsang/kosuzu"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.6.0"]]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [enlive "1.1.5"]]
   :main ^:skip-aot kosuzu.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
