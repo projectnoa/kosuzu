@@ -4,7 +4,8 @@
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [enlive "1.1.5"]]
+                 [enlive "1.1.5"]
+                 [selmer "0.8.2"]]
   :main ^:skip-aot kosuzu.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}}

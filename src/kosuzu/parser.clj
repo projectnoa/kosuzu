@@ -1,4 +1,5 @@
-(ns kosuzu.parser)
+(ns kosuzu.parser
+  (:require kosuzu.template))
 
 (defprotocol Parser
   (can-parse-album? [this])
@@ -21,5 +22,5 @@
               current-parser ((ns-resolve current-ns (symbol "get-parser"))
                               html url)]
           (if (can-parse-album? current-parser)
-            (parse-album current-parser)
+            (kosuzu.template/fill-template (parse-album current-parser))
             (recur (first remaining-handlers) (rest remaining-handlers))))))))
