@@ -7,4 +7,5 @@
                  [enlive "1.1.5"]]
   :main ^:skip-aot kosuzu.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}}
+  :jvm-opts ["-Dfile.encoding=utf8"])
