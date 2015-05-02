@@ -55,6 +55,7 @@
      :released (get-released html)
      :convention (util/date->convention (get-released html))
      :tracks (get-tracks html)
-     :catalogno (get-catalogno url)}))
+     :catalogno (get-catalogno url)
+     :website (str "[" url " Link]")}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
