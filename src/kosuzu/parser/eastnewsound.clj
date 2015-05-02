@@ -28,6 +28,14 @@
          "-"
          (last release-date))))
 
+(defn- get-tracks [html]
+  (count (filter (every-pred string?
+                             (fn [line] (.contains line "◆")))
+                 (-> (html/select html {[:a#track] [:span]})
+                     first
+                     (nth 3)
+                     :content))))
+
 (defn- get-catalogno [url]
   (str "ENS-" (last (re-find url-pattern (.getPath url)))))
 
@@ -45,6 +53,7 @@
      :groupCat "EastNewSound"
      :released (get-released html)
      :convention (util/date->convention (get-released html))
+     :tracks (get-tracks html)
      :catalogno (get-catalogno url)}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
