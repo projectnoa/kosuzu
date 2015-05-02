@@ -6,9 +6,37 @@ This project is named after [Kosuzu Motoori] [2], who can decipher books by only
 
 ## Usage
 
-FIXME: explanation
+Simply pass the Touhou doujin album URL as an argument:
 
-    $ java -jar kosuzu-0.1.0-standalone.jar [args]
+    $ java -jar kosuzu-0.1.0-standalone.jar http://e-ns.net/discography/ens0036.html
+
+## Adding new parsers
+
+If you want to add a parser for a doujin circle, first create a file for it under the `src/kosuzu/parser` directory. The contents of the file should be similar to the following (using [Yuuhei Satellite (幽閉サテライト)] [3] as an example):
+
+    ; Lowercase the circle's romanized name in the namespace
+    ; and remove spaces
+    (ns kosuzu.parser.yuuheisatellite
+      (:require kosuzu.parser))
+
+    ; Camel-case the circle's romanized name in the defrecord
+    (defrecord YuuheiSatelliteParser [html url]
+      kosuzu.parser/Parser
+      (can-parse-album?
+        [this] ; You can access the html and url with (:html this)
+               ; and (:url this) respectively
+        true) ; Logic for determining whether this parser can parse
+              ; the given html content and url
+
+      (parse-album
+        [this]
+        {})) ; Logic that returns a hash map with key-value pairs
+             ; representing the parameters defined in the URL below:
+             ; http://en.touhouwiki.net/wiki/Template:MusicArticle
+
+    (defn get-parser [html url] (YuuheiSatelliteParser. html url))
+
+For more examples, please look at the existing parsers under the `src/kosuzu/parser` directory.
 
 ## License
 
@@ -36,3 +64,4 @@ THE SOFTWARE.
 
 [1]: http://en.touhouwiki.net/wiki/ "Touhou Wiki"
 [2]: http://en.touhouwiki.net/wiki/Kosuzu_Motoori "Kosuzu Motoori - Touhou Wiki"
+[3]: http://www.yuuhei-satellite.jp/ "幽閉サテライト"
