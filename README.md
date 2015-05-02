@@ -17,7 +17,9 @@ If you want to add a parser for a doujin circle, first create a file for it unde
     ; Lowercase the circle's romanized name in the namespace
     ; and remove spaces
     (ns kosuzu.parser.yuuheisatellite
-      (:require kosuzu.parser))
+      (:require kosuzu.parser
+                ; enlive helps parse html
+                [net.cgrand.enlive-html :as html]))
 
     ; Camel-case the circle's romanized name in the defrecord
     (defrecord YuuheiSatelliteParser [html url]
