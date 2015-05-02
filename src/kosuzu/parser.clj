@@ -7,7 +7,7 @@
 
 ;; TODO: Figure out how to load parsers automatically
 (def ^:private parsers
-  (list "eastnewsound"))
+  '("eastnewsound"))
 
 (defn generate-content [html url]
   (loop [current-handler (first parsers)
