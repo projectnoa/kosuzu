@@ -3,7 +3,7 @@
             [net.cgrand.enlive-html :as html]))
 
 (def ^:private url-pattern
-  (re-pattern "/discography/ens(\\d{4})\\.html"))
+  (re-pattern "/discography/ens(\\d{4})(?:\\.html)?"))
 
 (defn- get-titleen [html]
   (let [titleen-pattern (re-pattern "ENS-\\d{4} / (.*)::EastNewSound Official Site::")
