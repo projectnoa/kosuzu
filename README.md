@@ -10,6 +10,8 @@ Simply pass the Touhou doujin album URL as an argument:
 
     $ java -jar kosuzu-0.1.0-standalone.jar http://e-ns.net/discography/ens0036.html
 
+The resulting Touhou wiki article will be generated in a file called `output.txt` in the current directory.
+
 ## Adding new parsers
 
 If you want to add a parser for a doujin circle, first create a file for it under the `src/kosuzu/parser` directory. The contents of the file should be similar to the following (using [Yuuhei Satellite (幽閉サテライト)] [3] as an example):
