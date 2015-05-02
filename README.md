@@ -23,8 +23,7 @@ If you want to add a parser for a doujin circle, first create a file for it unde
     (defrecord YuuheiSatelliteParser [html url]
       kosuzu.parser/Parser
       (can-parse-album?
-        [this] ; You can access the html and url with (:html this)
-               ; and (:url this) respectively
+        [this]
         true) ; Logic for determining whether this parser can parse
               ; the given html content and url
 
