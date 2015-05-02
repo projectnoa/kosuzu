@@ -9,8 +9,6 @@
 (def ^:private parsers
   (list "eastnewsound"))
 
-; TODO: have parser return data structure with info
-; TODO: use info, fit into template
 (defn generate-content [html url]
   (loop [current-handler (first parsers)
          remaining-handlers (rest parsers)]
