@@ -1,5 +1,6 @@
 (ns kosuzu.parser.eastnewsound
   (:require kosuzu.parser
+            [kosuzu.util :as util]
             [net.cgrand.enlive-html :as html]))
 
 (def ^:private url-pattern
@@ -43,6 +44,7 @@
      :group "[[EastNewSound]]"
      :groupCat "EastNewSound"
      :released (get-released html)
+     :convention (util/date->convention (get-released html))
      :catalogno (get-catalogno url)}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
