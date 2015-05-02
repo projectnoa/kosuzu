@@ -18,7 +18,8 @@
         (re-find date-pattern
                  (-> (html/select
                        html
-                       [:div#mainContents :div.txtTempSet :> :span])
+                       {[:a#sal] [:span]})
+                     first
                      (nth 3)
                      :content
                      first))]
