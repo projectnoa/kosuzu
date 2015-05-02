@@ -37,7 +37,9 @@ If you want to add a parser for a doujin circle, first create a file for it unde
 
     (defn get-parser [html url] (YuuheiSatelliteParser. html url))
 
-For more examples, please look at the existing parsers under the `src/kosuzu/parser` directory.
+For more code examples, please look at the existing parsers under the `src/kosuzu/parser` directory.
+
+After creating your file, add its lowercased name (in `kosuzu.parser.yuuheisatellite` it would be `yuuheisatellite`) to the list of parsers under `src/kosuzu/parser.clj`. kosuzu will loop through all of these parsers to determine which one to use for a given URL.
 
 ## License
 
