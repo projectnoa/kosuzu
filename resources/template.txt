@@ -15,13 +15,15 @@
 | website     ={{website}}
 | image       ={{image}}
 | banner      ={{banner}}
-| arranger    =Album's arrangers
-| lyricist    =Album's lyricists
-| vocalist    =Album's vocalists
-| producer    =Album's producers
-| illustrator =Album art's illustrators
-| designer    =Album's designers
-| masterer    =Album's mastering staff
-| other_staff =If above parameters are not applicable, use this parameter to add such as Violinist or Guitarist
-| tracklist   =The tracklist, please see below for more info
+| arranger    ={{arranger}}
+| lyricist    ={{lyricist}}
+| vocalist    ={{vocalist}}
+| producer    ={{producer}}
+| illustrator ={{illustrator}}
+| designer    ={{designer}}
+| masterer    ={{masterer}}
+| other_staff ={{other_staff}}
+| tracklist   =
+
+{{tracklist}}
 }}
