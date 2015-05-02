@@ -11,6 +11,22 @@
                   first :content first)]
     (last (re-find titleen-pattern title))))
 
+(defn- get-released [html]
+  (let [date-pattern (re-pattern "(\\d{4})/(\\d{2})/(\\d{2})")
+        release-date
+        (re-find date-pattern
+                 (-> (html/select
+                       html
+                       [:div#mainContents :div.txtTempSet :> :span])
+                     (nth 3)
+                     :content
+                     first))]
+    (str (second release-date)
+         "-"
+         (nth release-date 2)
+         "-"
+         (last release-date))))
+
 (defn- get-catalogno [url]
   (str "ENS-" (last (re-find url-pattern (.getPath url)))))
 
@@ -26,6 +42,7 @@
     {:titleen (get-titleen html)
      :group "[[EastNewSound]]"
      :groupCat "EastNewSound"
+     :released (get-released html)
      :catalogno (get-catalogno url)}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
