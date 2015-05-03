@@ -1,6 +1,7 @@
 (ns kosuzu.parser.eastnewsound
   (:require kosuzu.parser
             [kosuzu.util :as util]
+            [clojure.string :as string]
             [net.cgrand.enlive-html :as html]))
 
 (def ^:private url-pattern
@@ -40,6 +41,18 @@
 (defn- get-catalogno [url]
   (str "ENS-" (last (re-find url-pattern (.getPath url)))))
 
+(defn- get-arranger [html]
+  (let [staff (string/join (html/texts
+                             (-> (html/select html [(html/lefts :a#staff)]))))
+        arrangers
+        (take-while
+          (complement (fn [text] (.contains text "・")))
+          (drop 1
+                (drop-while (complement
+                              (fn [text] (.contains text "Arranger:")))
+                            (string/split staff #"\n"))))]
+    (string/join "\n: " (map string/trim arrangers))))
+
 (defrecord EastNewSoundParser [html url]
   kosuzu.parser/Parser
   (can-parse-album?
@@ -58,6 +71,7 @@
      :catalogno (get-catalogno url)
      :website (str "[" url " Link]")
      :image (str (get-catalogno url) ".png")
-     :banner (str (get-catalogno url) "_banner.png")}))
+     :banner (str (get-catalogno url) "_banner.png")
+     :arranger (get-arranger html)}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
