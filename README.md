@@ -20,8 +20,9 @@ If you want to add a parser for a doujin circle, first create a file for it unde
     ; and remove spaces
     (ns kosuzu.parser.yuuheisatellite
       (:require kosuzu.parser
-                ; enlive helps parse html
-                [net.cgrand.enlive-html :as html]))
+                ; reaver helps parse html
+                ; https://github.com/mischov/reaver
+                [reaver :refer [select text]]))
 
     ; Camel-case the circle's romanized name in the defrecord
     (defrecord YuuheiSatelliteParser [html url]

@@ -2,28 +2,20 @@
   (:require kosuzu.parser
             [kosuzu.util :as util]
             [clojure.string :as string]
-            [net.cgrand.enlive-html :as html]))
+            [reaver :refer [select text]]))
 
 (def ^:private url-pattern
   (re-pattern "/discography/ens(\\d{4})(?:\\.html)?"))
 
 (defn- get-titleen [html]
   (let [titleen-pattern (re-pattern "ENS-\\d{4} / (.*)::EastNewSound Official Site::")
-        title (-> (html/select html [:title])
-                  first :content first)]
+        title (text (select html "title"))]
     (last (re-find titleen-pattern title))))
 
 (defn- get-released [html]
   (let [date-pattern (re-pattern "(\\d{4})/(\\d{2})/(\\d{2})")
-        release-date
-        (re-find date-pattern
-                 (-> (html/select
-                       html
-                       {[:a#sal] [:span]})
-                     first
-                     (nth 3)
-                     :content
-                     first))]
+        release-date (re-find date-pattern
+                              (text (select html "a#sal + strong + span")))]
     (str (second release-date)
          "-"
          (nth release-date 2)
@@ -31,27 +23,24 @@
          (last release-date))))
 
 (defn- get-tracks [html]
-  (count (filter (every-pred string?
-                             (fn [line] (.contains line "◆")))
-                 (-> (html/select html {[:a#track] [:span]})
-                     first
-                     (nth 3)
-                     :content))))
+  (let [tracks (text (select html "a#track + strong + span"))]
+    ((frequencies tracks) \◆)))
 
 (defn- get-catalogno [url]
   (str "ENS-" (last (re-find url-pattern (.getPath url)))))
 
 (defn- get-arranger [html]
-  (let [staff (string/join (html/texts
-                             (-> (html/select html [(html/lefts :a#staff)]))))
+  (let [; Grabbing a#staff's parent p to be absolutely sure we've got the staff
+        staff-parent-p (-> (select html "a#staff") first .parent)
+        staff-text (map (fn [txt] (string/trim (.text txt)))
+                        (.textNodes staff-parent-p))
         arrangers
-        (take-while
-          (complement (fn [text] (.contains text "・")))
-          (drop 1
-                (drop-while (complement
-                              (fn [text] (.contains text "Arranger:")))
-                            (string/split staff #"\n"))))]
-    (string/join "\n: " (map string/trim arrangers))))
+        (take-while (complement (fn [txt] (.contains txt "・")))
+                    (drop 1
+                          (drop-while
+                            (complement (fn [txt] (.contains txt "Arranger:")))
+                            staff-text)))]
+    (string/join "\n: " arrangers)))
 
 (defrecord EastNewSoundParser [html url]
   kosuzu.parser/Parser
