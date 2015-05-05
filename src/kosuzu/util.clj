@@ -1,4 +1,5 @@
-(ns kosuzu.util)
+(ns kosuzu.util
+  (:require [clojure.string :as string]))
 
 (def ^:private date->convention-map
   {"2008-11-02" "Touhou Kouroumu 4"
@@ -28,3 +29,24 @@
 
 (defn date->convention [date]
   (get date->convention-map date ""))
+
+(defn wrap-jp-text [text]
+  (let [is-ascii? (fn [x] (<= x 128))
+        ints-to-string (fn [ints-coll] (string/join (map char ints-coll)))
+        wrap-text (fn [text] (if (empty? text)
+                               ""
+                               (str "{{lang|ja|" text "}}")))]
+    (loop [in (map int (seq text))
+           out ""]
+      (if (empty? in)
+        out
+        (let [sequential-ascii (take-while is-ascii? in)
+              sequential-non-ascii (take-while (complement is-ascii?)
+                                               (drop (count sequential-ascii)
+                                                     in))]
+          (recur (drop (+ (count sequential-ascii)
+                          (count sequential-non-ascii))
+                       in)
+                 (str out
+                      (ints-to-string sequential-ascii)
+                      (wrap-text (ints-to-string sequential-non-ascii)))))))))

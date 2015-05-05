@@ -39,7 +39,7 @@
                           (drop-while
                             (complement (fn [txt] (.contains txt "Arranger:")))
                             staff-text)))]
-    (string/join "\n: " arrangers)))
+    (string/join "\n: " (map util/wrap-jp-text arrangers))))
 
 (defrecord EastNewSoundParser [html url]
   kosuzu.parser/Parser
