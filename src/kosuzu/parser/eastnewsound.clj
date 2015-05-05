@@ -38,8 +38,18 @@
                     (drop 1
                           (drop-while
                             (complement (fn [txt] (.contains txt "Arranger:")))
-                            staff-text)))]
-    (string/join "\n: " (map util/wrap-jp-text arrangers))))
+                            staff-text)))
+        bracket-pattern (re-pattern "(.*)\\[([^]]+)\\]")
+        wrap-in-parens (fn [text]
+                         (let [regex-result (re-find bracket-pattern text)]
+                           (if (nil? regex-result)
+                             text
+                             (str (second regex-result)
+                                  "("
+                                  (string/trim (last regex-result))
+                                  ")"))))]
+    (string/join "\n: " (map util/wrap-jp-text
+                             (map wrap-in-parens arrangers)))))
 
 (defrecord EastNewSoundParser [html url]
   kosuzu.parser/Parser
