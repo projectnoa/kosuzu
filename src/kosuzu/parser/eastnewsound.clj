@@ -45,9 +45,9 @@
                            (if (nil? regex-result)
                              text
                              (str (second regex-result)
-                                  "("
+                                  "([["
                                   (string/trim (last regex-result))
-                                  ")"))))]
+                                  "]])"))))]
     (string/join "\n: " (map util/wrap-jp-text
                              (map wrap-in-parens arrangers)))))
 
