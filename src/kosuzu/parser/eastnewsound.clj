@@ -8,9 +8,8 @@
   (re-pattern "/discography/ens(\\d{4})(?:\\.html)?"))
 
 (defn- get-titleen [html]
-  (let [titleen-pattern (re-pattern "ENS-\\d{4} / (.*)::EastNewSound Official Site::")
-        title (text (select html "title"))]
-    (last (re-find titleen-pattern title))))
+  (let [titleen-pattern (re-pattern "ENS-\\d{4} / (.*)::EastNewSound Official Site::")]
+    (last (re-find titleen-pattern (.title html)))))
 
 (defn- get-released [html]
   (let [date-pattern (re-pattern "(\\d{4})/(\\d{2})/(\\d{2})")
