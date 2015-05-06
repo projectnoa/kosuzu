@@ -28,17 +28,23 @@
 (defn- get-catalogno [url]
   (str "ENS-" (last (re-find url-pattern (.getPath url)))))
 
-(defn- get-arranger [html]
-  (let [; Grabbing a#staff's parent p to be absolutely sure we've got the staff
-        staff-parent-p (-> (select html "a#staff") first .parent)
+(defn- get-staff-type [html type]
+  (let [staff-parent-p (-> (select html "a#staff") first .parent)
         staff-text (map (fn [txt] (string/trim (.text txt)))
                         (.textNodes staff-parent-p))
-        arrangers
-        (take-while (complement (fn [txt] (.contains txt "・")))
-                    (drop 1
-                          (drop-while
-                            (complement (fn [txt] (.contains txt "Arranger:")))
-                            staff-text)))
+        search-text (str (string/capitalize type) ":")]
+    (take-while (complement (fn [txt] (.contains txt "・")))
+                (drop 1
+                      (drop-while
+                        (complement (fn [txt] (.contains txt search-text)))
+                        staff-text)))))
+
+(defn- get-arranger [html]
+  (let [; Grabbing a#staff's parent p to be absolutely sure we've got the staff
+        ; staff-parent-p (-> (select html "a#staff") first .parent)
+        ; staff-text (map (fn [txt] (string/trim (.text txt)))
+        ;                 (.textNodes staff-parent-p))
+        arrangers (get-staff-type html "arranger")
         bracket-pattern (re-pattern "(.*)\\[([^]]+)\\]")
         wrap-in-parens (fn [text]
                          (let [regex-result (re-find bracket-pattern text)]
@@ -50,6 +56,10 @@
                                   "]])"))))]
     (string/join "\n: " (map util/wrap-jp-text
                              (map wrap-in-parens arrangers)))))
+
+(defn- get-lyricist [html]
+  (let [lyricist (get-staff-type html "lyricist")]
+    (string/join "\n: " (map util/wrap-jp-text lyricist))))
 
 (defrecord EastNewSoundParser [html url]
   kosuzu.parser/Parser
@@ -70,6 +80,7 @@
      :website (str "[" url " Link]")
      :image (str (get-catalogno url) ".png")
      :banner (str (get-catalogno url) "_banner.png")
-     :arranger (get-arranger html)}))
+     :arranger (get-arranger html)
+     :lyricist (get-lyricist html)}))
 
 (defn get-parser [html url] (EastNewSoundParser. html url))
